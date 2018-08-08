@@ -8,4 +8,46 @@
 			<result name="ok">/hello.jsp</result>
 		</action>
 	</package>
+	<!-- action标签的method方法 -->
+	<package name="bookdemo" extends="struts-default" namespace="/book">
+		<action name="add" class="actions.BookAction" method="add">
+		</action>
+		<action name="update" class="actions.BookAction" method="update">
+		</action>
+	</package>
+	<!-- action标签的name使用通配符 -->
+	<package name="bookAll" extends="struts-default" namespace="/">
+		<action name="book_*" class="actions.BookAction" method="{1}">
+		</action>
+	</package>
+	<!-- 获取表单提交数据 -->
+	<package name="userdemo" extends="struts-default" namespace="/">
+		<action name="form1" class="actions.UserAction" method="context1">
+		</action>
+		<action name="form2" class="actions.UserAction" method="context2">
+		</action>
+		<action name="form3" class="actions.ModelAction">
+		</action>
+		<action name="form4" class="actions.ExAction">
+		</action>
+	</package>
+	<!-- 拦截未登录用户 -->
+	<package name="userInfo" extends="struts-default" namespace="/">
+		<interceptors>
+			<interceptor name="loginintercept" class="interceptors.LoginInterceptor">
+			</interceptor>
+		</interceptors>
+		<!-- 登录操作 -->
+		<action name="login" class="">
+			<!-- 使用自定义拦截器 -->
+			<interceptor-ref name="loginintercept">
+				<!-- 对login这个登录的action不执行拦截器 -->
+				<param name="excludeMethods">login</param>
+			</interceptor-ref>
+			<!-- 手动执行默认拦截器 -->
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="success">/index.html</result>
+			<result name="login">/login.jsp</result>
+		</action>
+	</package>
 </struts>
